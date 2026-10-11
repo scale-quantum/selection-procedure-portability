@@ -1,3 +1,5 @@
 __pycache__/
 *.pyc
 .venv/
+# output folders written by the studies (not the spp/ library)
+scripts/spp_*/

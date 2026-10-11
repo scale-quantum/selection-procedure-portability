@@ -50,7 +50,11 @@ The champion is in the red, so the usual walk-forward sign is a minus. The froze
 
 ## Reproduce the testbed
 
-From the repository root, run the commands in Appendix C of the paper, except `spp_live_table.py` and `spp_build_article.py`. Those two are not in this repository: the historical matrices are not published. The studies need NumPy. Regenerating the figures also needs matplotlib, after `spp_baseline_study.py` has written its results.
+From the repository root, run the commands in Appendix C of the paper, except `spp_live_table.py` and `spp_build_article.py`. Those two are not in this repository: the historical matrices are not published.
+
+Run them strictly in that order. Later scripts read files that earlier ones write (for example `spp_ribbon_study.py` needs the thresholds from `spp_worlds_study.py`), so a script run alone on a fresh clone fails with a missing-file error.
+
+Install the requirements with `pip install -r requirements.txt`. The studies need NumPy; regenerating the figures also needs matplotlib, after `spp_baseline_study.py` has written its results.
 
 ## License
 

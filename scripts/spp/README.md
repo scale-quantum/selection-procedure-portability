@@ -133,7 +133,7 @@ rule the article's generator uses.
 The paper is `Selection Procedure Portability.md` at the repository root.
 Run from the repository root:
 
-```powershell
+```bash
 python scripts/spp_catalog_six.py
 python scripts/spp_worlds_study.py
 python scripts/spp_shift_study.py
@@ -148,9 +148,12 @@ python scripts/spp_clusternull_study.py --mode candidate
 python scripts/spp_plot_article.py
 ```
 
-Each study writes its report and data next to itself. The worlds study takes
-about 3 minutes, the shift study about 1 minute, the chain study about 10
-seconds, the catalog about 30 seconds. Runs are deterministic
+Run the commands in this order: later studies read files that earlier ones
+write. Each study writes its report and data next to itself, into a
+`scripts/spp_*/` folder (ignored by git). On one cloud machine the whole
+sequence took about 47 minutes: the catalog 30 seconds, the worlds study
+5 minutes, the shift study 3 minutes, the chain study 10 seconds, the robust
+study 13 minutes. Times depend on the machine. Runs are deterministic
 (`numpy.random.default_rng`). To import `spp` from your own code, run from
 `scripts/` or put that folder on `sys.path`.
 
