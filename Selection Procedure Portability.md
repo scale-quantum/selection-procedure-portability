@@ -1,5 +1,6 @@
 # The sign of the selected candidate's P&L conflates the level of the test period with the quality of selection
 
+Matvey Kiriakov  
 First public version, 11 October 2026.
 
 SPP — Selection Procedure Portability: whether a selection rule's advantage carries over out of sample.
