@@ -6,12 +6,26 @@ Selection Procedure Portability (SPP) reads one out-of-sample step of a selectio
 
 The paper is [Selection Procedure Portability](Selection%20Procedure%20Portability.md).
 
-## Read your own table
+The sign of the selected follows how strong the test period was. The place of the frozen slice does not:
+
+![Share of replicates in which the reading matched the preset ordering, as a function of OOS period level.](figures/spp_level_curves.png)
+
+## Read a table
 
 The library is `scripts/spp/` (NumPy only). It does not download prices or run a backtest. From `scripts/`:
 
 ```python
+import numpy as np
 from spp import gap_matched, selection_report, top_index
+
+# 20 candidates. Weak test period, in-sample order kept.
+train_score = np.arange(20, 0, -1, dtype=float)
+test_values = -5.0 * np.arange(1, 21)
+trade_count = np.array(
+    [300, 450, 310, 440, 320, 430, 330, 420, 340, 410,
+     350, 400, 360, 390, 370, 380, 305, 445, 315, 435],
+    dtype=float,
+)
 
 chosen = top_index(train_score, 0.10)
 report = selection_report(train_score, test_values, fraction=0.10)
@@ -22,7 +36,17 @@ print(report["place"], report["gap_exact"])
 print(matched["gap_matched"])
 ```
 
-`train_score`, `test_values` and `trade_count` are columns of the same length and the same row order. Details are in [scripts/spp/README.md](scripts/spp/README.md).
+This prints:
+
+```
+-5.0 95.0
+92.5 45.0
+40.0
+```
+
+The champion is in the red, so the usual walk-forward sign is a minus. The frozen top 10% still sit at the top of the set (`place` 92.5). The third number is the trade-count-matched gap: a side reading, not a replacement for the sum.
+
+`train_score`, `test_values` and `trade_count` must be the same length and the same row order. Details are in [scripts/spp/README.md](scripts/spp/README.md).
 
 ## Reproduce the testbed
 

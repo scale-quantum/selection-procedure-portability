@@ -17,7 +17,16 @@ how many trades each row took on the training window. The chosen rows are not
 re-picked on the test column.
 
 ```python
+import numpy as np
 from spp import decile_table, gap_matched, selection_report, top_index, top_overlap
+
+train_score = np.arange(20, 0, -1, dtype=float)
+test_values = -5.0 * np.arange(1, 21)
+trade_count = np.array(
+    [300, 450, 310, 440, 320, 430, 330, 420, 340, 410,
+     350, 400, 360, 390, 370, 380, 305, 445, 315, 435],
+    dtype=float,
+)
 
 chosen = top_index(train_score, 0.10)
 report = selection_report(train_score, test_values, fraction=0.10)
@@ -29,6 +38,8 @@ print(matched["gap_matched"])  # same trade-count, beside the sum
 print(decile_table(train_score, test_values))  # decile 1 is the top of train_score
 print(top_overlap(train_score, test_values, ks=(100,)))
 ```
+
+On this table the first three prints are `-5.0 95.0`, then `92.5 -7.5 45.0`, then `40.0`.
 
 The reading of the step is the first two `print` lines. `champion_value` and `champion_place` are the
 single best training row, read on the test column. Place 0 is worst, just under
