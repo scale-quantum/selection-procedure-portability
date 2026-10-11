@@ -4,7 +4,7 @@ Matvey Kiriakov
 
 Selection Procedure Portability (SPP) reads one out-of-sample step of a selection rule: the sum of the candidate that was frozen in-sample, and where that slice sits in the candidate set. A comparison with candidates of the same trade count sits beside the sum. It does not replace the sum.
 
-The paper is [Selection Procedure Portability](Selection%20Procedure%20Portability.md). A short note is [Note.md](Note.md). An SSRN-ready PDF is [Selection Procedure Portability.pdf](Selection%20Procedure%20Portability.pdf).
+The paper is [Selection Procedure Portability](Selection%20Procedure%20Portability.md).
 
 ## Read your own table
 
