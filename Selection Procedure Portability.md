@@ -1,11 +1,6 @@
----
-type: article
-status: canon-thought
-updated: 2026-10-10
-language: en
----
-
 # The sign of the selected candidate's P&L conflates the level of the test period with the quality of selection
+
+First public version, 11 October 2026.
 
 SPP — Selection Procedure Portability: whether a selection rule's advantage carries over out of sample.
 
@@ -67,7 +62,7 @@ Here $R$ is a random sample of $k$ candidates without replacement. The expectati
 
 **Trade-count-matched gap.** A candidate's OOS sum depends on its number of trades: on a strong segment it grows with it, on a weak one it falls, if the period level passes into the P&L through entry frequency. The plain gap then rewards or punishes frequency. The trade-count-matched gap compares the top slice not with an arbitrary random sample but with a sample of the same size and the same composition across ten IS trade-count quantile bins. The expectation of such a sample is the bin means weighted by the number of top-slice members in each bin; it is computed exactly.
 
-The trade-count-matched percentile is the candidate's percentile among candidates with a similar number of trades. For the selection rule "trade count" the matched gap is zero and the percentile is 50 by construction, up to ties in trade count. On this testbed such a row mutes the part of the level that passes through trade count. It does not replace the P&L of the selected. With a different level channel this no longer holds (4.12).
+The trade-count-matched percentile is the candidate's percentile among candidates with a similar number of trades. For the selection rule "trade count", when the slice fills whole trade-count quantile bins (the main 10% slice with ten bins; likewise 30%), the matched gap is zero and the percentile is 50 by construction, up to ties in trade count. At 1% and 5% the slice is only part of the top bin, so zero and 50 are not identities. On this testbed such a row mutes the part of the level that passes through trade count. It does not replace the P&L of the selected. With a different level channel this no longer holds (4.12).
 
 **Trade-count-matched rank IC.** Next to the sign and the position, one can read the rank IC between the IS score and the OOS sum within the same ten trade-count bins (the mean of Spearman coefficients weighted by bin size, `spearman_matched` in the library). On the testbed it separates ordering from level just as the matched percentile does (4.11). In reading a step on historical data it enters as the same side row.
 

@@ -42,7 +42,9 @@ quantile bins of `trade_count`. The function subtracts the exact expectation of
 a draw that takes from each bin as many rows as the slice does. No random draws.
 If every row has the same trade count, `gap_matched` equals `gap_plain`, and
 `gap_plain` equals `gap_exact`. For a rule that selects on trade count itself,
-the matched gap is zero by construction, up to ties. On the synthetic worlds
+and a slice that fills whole trade-count quantile bins (the main 10% with ten
+bins), the matched gap is zero by construction, up to ties. At 1% and 5% the
+slice is only part of the top bin. On the synthetic worlds
 where the window level reaches the sum only through trade count, the plain gap
 moves with that level and the matched gap stays near zero. When the level has
 another channel, the matched gap does not remove it. There is no transfer

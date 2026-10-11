@@ -25,3 +25,7 @@ print(matched["gap_matched"])
 ## Reproduce the testbed
 
 From the repository root, run the commands in Appendix C of the paper, except `spp_live_table.py` and `spp_build_article.py`. Those two are not in this repository: the historical matrices are not published. The studies need NumPy. Regenerating the figures also needs matplotlib, after `spp_baseline_study.py` has written its results.
+
+## License
+
+The paper and figures are [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): reuse with attribution. The code in `scripts/` is [MIT](LICENSE).
