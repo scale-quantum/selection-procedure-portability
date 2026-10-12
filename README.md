@@ -1,5 +1,9 @@
 # Selection Procedure Portability
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23324761.svg)](https://doi.org/10.5281/zenodo.23324761)
+
+Cite as: Kiriakov, M. (2026). The sign of the selected candidate's P&L conflates the level of the test period with the quality of selection. Zenodo. https://doi.org/10.5281/zenodo.23324761
+
 Matvey Kiriakov
 
 Selection Procedure Portability (SPP) reads one out-of-sample step of a selection rule: the sum of the candidate that was frozen in-sample, and where that slice sits in the candidate set. A comparison with candidates of the same trade count sits beside the sum. It does not replace the sum.
