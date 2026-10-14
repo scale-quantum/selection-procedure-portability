@@ -1,3 +1,7 @@
+Walk-forward validation usually checks the sign of the selected strategy's out-of-sample P&L.
+That sign mostly follows how strong the test period was, not how good the selection was.
+This repo shows the effect on a simulation testbed, plus a 20-line example you can run.
+
 # Selection Procedure Portability
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23324761.svg)](https://doi.org/10.5281/zenodo.23324761)
