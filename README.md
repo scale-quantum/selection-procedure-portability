@@ -1,8 +1,8 @@
 # Selection Procedure Portability
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23324761.svg)](https://doi.org/10.5281/zenodo.23324761)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23454958.svg)](https://doi.org/10.5281/zenodo.23454958)
 
-Cite as: Kiriakov, M. (2026). The sign of the selected candidate's P&L conflates the level of the test period with the quality of selection. Zenodo. https://doi.org/10.5281/zenodo.23324761
+Cite as: Kiriakov, M. (2026). Selection Procedure Portability: three readings of one out-of-sample step (Version v2). Zenodo. https://doi.org/10.5281/zenodo.23454958
 
 Matvey Kiriakov
 
@@ -10,7 +10,7 @@ Walk-forward validation usually checks the sign of the selected strategy's out-o
 
 Selection Procedure Portability (SPP) reads one out-of-sample step of a selection rule: the sum of the candidate that was frozen in-sample, and where that slice sits in the candidate set. A comparison with candidates of the same trade count sits beside the sum. It does not replace the sum.
 
-The paper is [Selection Procedure Portability](Selection%20Procedure%20Portability.md). The file is a revision of the deposited text: the step is read as the champion, the frozen slice, and the ordering of the whole set. The citation above is the deposited version.
+The paper is [Selection Procedure Portability](Selection%20Procedure%20Portability.md). Version v2 is the citation above. Version v1 keeps the earlier title: https://doi.org/10.5281/zenodo.23324761
 
 On the testbed, how often the sign agrees with the preset ordering depends on how strong the test period is. The trade-count-matched place of the frozen slice depends on it much less:
 
