@@ -1,7 +1,3 @@
-Walk-forward validation usually checks the sign of the selected strategy's out-of-sample P&L.
-That sign mostly follows how strong the test period was, not how good the selection was.
-This repo shows the effect on a simulation testbed, plus a 20-line example you can run.
-
 # Selection Procedure Portability
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23324761.svg)](https://doi.org/10.5281/zenodo.23324761)
@@ -10,11 +6,13 @@ Cite as: Kiriakov, M. (2026). The sign of the selected candidate's P&L conflates
 
 Matvey Kiriakov
 
+Walk-forward validation usually checks the sign of the selected strategy's out-of-sample P&L. That one number mixes two facts: how the test period treated the whole candidate set, and whether the selection's advantage survived. It can be wrong in either direction. This repository shows it on a simulation testbed where the answer is known in advance, and provides a small library to read the same step on a table you already have.
+
 Selection Procedure Portability (SPP) reads one out-of-sample step of a selection rule: the sum of the candidate that was frozen in-sample, and where that slice sits in the candidate set. A comparison with candidates of the same trade count sits beside the sum. It does not replace the sum.
 
 The paper is [Selection Procedure Portability](Selection%20Procedure%20Portability.md).
 
-The sign of the selected follows how strong the test period was. The place of the frozen slice does not:
+On the testbed, how often the sign agrees with the preset ordering depends on how strong the test period is. The trade-count-matched place of the frozen slice depends on it much less:
 
 ![Share of replicates in which the reading matched the preset ordering, as a function of OOS period level.](figures/spp_level_curves.png)
 
