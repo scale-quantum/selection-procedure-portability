@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: If you use this work, please cite it as below.
+authors:
+  - family-names: Kiriakov
+    given-names: Matvey
+    orcid: https://orcid.org/0009-0004-2523-5524
+title: Selection Procedure Portability
+preferred-citation:
+  type: article
+  title: "Selection Procedure Portability: three readings of one out-of-sample step"
+  authors:
+    - family-names: Kiriakov
+      given-names: Matvey
+      orcid: https://orcid.org/0009-0004-2523-5524
+  year: 2026
+  doi: 10.5281/zenodo.23454958
+  url: https://doi.org/10.5281/zenodo.23454958
