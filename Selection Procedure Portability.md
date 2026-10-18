@@ -145,7 +145,7 @@ A null replicate is one in which the OOS ordering is unrelated to the IS orderin
 
 Observations.
 
-1. The sign of the selected candidate is positive in 96 of 200 type-M replicates and in 200 of 200 type-S replicates. The sign follows the OOS level.
+1. The sign of the selected candidate is positive in 96 of 200 type-M replicates and in 200 of 200 type-S replicates. On these nulls the sign tracks the OOS level.
 2. The plain gap is biased by level: the mean is +5.5 in type S versus −0.4 in type M. For the matched gap the means are +0.3 and −0.2, and the SD across replicates (both types together) falls from 8.7 to 5.4.
 3. The SD of the gap across replicates is 5.8 times the SD within a replicate (10% slice; by type 6.6 for M and 4.7 for S, so the difference of type means does not inflate the ratio). The reason is not z itself but that a random sample of candidates does not preserve the cluster concentration of the top slice (4.9): the ratio is a symptom of this, not independent evidence. Hence the standardized gap within a single replicate, z, overstates confidence: \(|z| \geq 5\) in 39% of null replicates, and the 95th percentile of |z| is 11.6. The work does not use z.
 4. The thresholds of the matched top-10% percentile are the 5% and 95% of the pooled null distribution of both types: 31 and 67. The verdict "carries over" is a percentile of at least 67, "inversion" at most 31, otherwise "no verdict". For the plain measure the thresholds are 30 and 74; for the rule "average trade" at equal trade count, 30 and 68.
@@ -271,7 +271,7 @@ At step 5→6 the sign "+" stands in 30 of 30 chains, with 0 of 30 correct decis
 
 ### 4.6 Combinatorial splits
 
-The same chains are cut in two ways: one segment as test and five as training (6 splits), and three versus three (all 20 combinations of three; mutually complementary pairs give two splits). This is a full enumeration of one chain, not independent histories. "Selected below median" means its OOS percentile is below 50 (this is how the PBO indicator is computed). The percentile and gap of the top slice are trade-count-matched.
+The same chains are cut in two ways: one segment as test and five as training (6 splits), and three versus three (all 20 combinations of three; mutually complementary pairs give two splits). This is a full enumeration of one chain, not independent histories. "Selected below median" means its OOS percentile is below 50. That is the below-median summary of the rank-logit distribution, not the whole of PBO. The percentile and gap of the top slice are trade-count-matched.
 
 | Test segment | Type | Selected below median | Selected in the red | Top-slice gap < 0 | Percentile of selected (plain) | Percentile of top slice |
 |---|---|---:|---:|---:|---:|---:|
@@ -282,11 +282,11 @@ The same chains are cut in two ways: one segment as test and five as training (6
 | 5 | middle | 17/30 | 15/30 | 18/30 | 45 | 50 |
 | 6 | strong | 6/30 | 0/30 | 13/30 | 72 | 50 |
 
-The top-slice gap is negative: on segments 1–3 (ordering preserved) in 0 of 30 chains each; on segment 4 (inversion) in 30 of 30; on segments 5 and 6 (no ordering) in 18 of 30 and 13 of 30. The below-median indicator in this table is computed on the raw sum, and on the sum it depends on the level through trade count. On segment 6 there is no ordering, yet the indicator fires in only 6 of 30 instead of roughly half: frequency lifts the selected's percentile to 72, while the top slice at equal trade count stands at 50. On the weak segment 3 the ordering is preserved, yet the indicator fires in 7 of 30. Computed on average trade, on the same chains, it fires in 0 of 30 on segment 3 and in 18 of 30 on segment 6 (4.14). The dependence is a property of the sum, not of the PBO framework.
+The top-slice gap is negative: on segments 1–3 (ordering preserved) in 0 of 30 chains each; on segment 4 (inversion) in 30 of 30; on segments 5 and 6 (no ordering) in 18 of 30 and 13 of 30. The below-median indicator in this table is computed on the raw sum, and on the sum it depends on the level through trade count. On segment 6 there is no ordering, yet the indicator fires in only 6 of 30 instead of roughly half: frequency lifts the selected's percentile to 72, while the top slice at equal trade count stands at 50. On the weak segment 3 the ordering is preserved, yet the indicator fires in 7 of 30. Computed on average trade, on the same chains, it fires in 0 of 30 on segment 3 and in 18 of 30 on segment 6 (4.14). On this testbed the dependence is a property of the sum, not of the PBO framework.
 
 The share of splits below median, by chain: for one segment 0.33 with an SD of 0.17 across chains (from 0.00 to 0.67), for triples 0.26 with an SD of 0.14 (from 0.00 to 0.55). An estimate from a single chain, with the world's structure unchanged, is scattered from zero to 0.67. The share "in the red" (probability of loss) on triples is 0.07, the share of splits with negative top-slice gap 0.24.
 
-The indicator and the sign of the top-slice gap agreed in 148 of 180 splits (82%) for one segment and in 500 of 600 (83%) for triples. The top slice refines the indicator where frequency affects it. The sign of the selected ("in the red") and the sign of the top-slice gap agreed in 120 of 180 (67%) and 463 of 600 (77%) splits, i.e. they diverge more often than the indicator and the gap do.
+The indicator and the sign of the top-slice gap agreed in 148 of 180 splits (82%) for one segment and in 500 of 600 (83%) for triples. The sign of the selected ("in the red") and the sign of the top-slice gap agreed in 120 of 180 (67%) and 463 of 600 (77%) splits, i.e. they diverge more often than the indicator and the gap do.
 
 ### 4.7 Decile ladder and the fork between rules
 
@@ -408,7 +408,7 @@ False verdicts on held-out null replicates: "carries over" / "inversion" out of 
 | Top-10% overlap | +0.01 / +0.26 | 13 / 16 | 15 / 2 | 13 / 8 | 12 / 0 |
 | Top minus bottom decile | −0.98 / +0.96 | 11 / 9 | 5 / 3 | 7 / 4 | 2 / 3 |
 | Sign of selected "+" | — | 91 of 200 | 200 of 200 | — | — |
-| Selected at or above median (PBO indicator) | — | 95 of 200 | 145 of 200 | — | — |
+| Selected at or above median (below-median indicator) | — | 95 of 200 | 145 of 200 | — | — |
 
 Number of "carries over" verdicts (for the sign and the indicator, "keep") out of 30; thresholds of both types. "Carries over" is correct in configurations 1 and 2 and at \(\alpha > 0\); in configurations 3, 4, 5 and at \(\alpha = 0\) there is no ordering or it is inverted.
 
@@ -421,7 +421,7 @@ Number of "carries over" verdicts (for the sign and the indicator, "keep") out o
 | Top-10% overlap | 30 | 16 | 0 | 2 | 3 | 25 | 24 | 30 |
 | Top minus bottom decile | 30 | 29 | 0 | 4 | 0 | 28 | 27 | 30 |
 | Sign of selected "+" | 30 | 15 | 10 | 14 | 30 | 30 | 30 | 30 |
-| Selected at or above median (PBO indicator) | 30 | 29 | 0 | 14 | 23 | 29 | 28 | 30 |
+| Selected at or above median (below-median indicator) | 30 | 29 | 0 | 14 | 23 | 29 | 28 | 30 |
 
 The same on the level sweeps (4.3; seeds 20000–20029): "weak" means ordering preserved, "no ordering" means no ordering.
 
@@ -434,7 +434,7 @@ The same on the level sweeps (4.3; seeds 20000–20029): "weak" means ordering p
 | Top-10% overlap | 22 | 10 | 4 | 6 | 8 |
 | Top minus bottom decile | 30 | 25 | 3 | 6 | 12 |
 | Sign of selected "+" | 16 | 0 | 13 | 30 | 30 |
-| Selected at or above median (PBO indicator) | 30 | 26 | 13 | 20 | 23 |
+| Selected at or above median (below-median indicator) | 30 | 26 | 13 | 20 | 23 |
 
 Three states of ordering instead of two (configurations 1–5, thresholds of both types): ordering present, no ordering, inversion.
 
@@ -616,9 +616,9 @@ The position here is the median of plain percentiles inside the family. In the s
 
 The selected sits above the middle in five windows and below it in one. That is the same kind of count as on the first system. The windows under the count are not the same story.
 
-Window 1. The set is in the red. The ladder is inverted: the training top loses more than the bottom. The top 10% sit at 51, rank IC is −0.16. The selected at 79 is above the middle of a set whose ordering did not transfer. A high champion with a dead ladder is not evidence that the procedure carries over. Three such champions would still not be.
+Window 1. The set is in the red. The ladder is inverted: the training top loses more than the bottom. The top 10% sit at 51, rank IC is −0.16. The selected at 79 is above the middle of a set whose ordering did not transfer. A high champion with a dead ladder is not evidence that the procedure carries over.
 
-Window 2. Every decile is in the black, from +$8.6k to +$12.1k. The selected is at 67, the top 10% at 50. The plus is the half-year.
+Window 2. Every decile is in the black, from +$8.6k to +$12.1k. The selected is at 67, the top 10% at 50. The plus is shared by the whole set, so it is not specific to the selected names.
 
 Window 3. The selected is at 98 and the top 10% at 75. The ladder falls from +$21.3k to +$6.9k. The name and the slice agree, and the set's own plus does not account for the top. Twenty-eight names in the top 100 are shared, against about 2 expected by chance.
 
@@ -650,9 +650,9 @@ The three uses rely on the same table. A row is a candidate. Columns are the sco
 
 The trade-count-matched comparison asks the neighboring question: does the difference remain among candidates with a similar trade count. On the testbed it mutes the part of the level that passes through trade count. On a historical set, trade count is often itself the behavior of the rule: a wide stop, for example, enters less often. Then this row explains part of the sum and is not subtracted from it.
 
-**A series of windows.** One window is one observation, however strong its plus or minus. The position of the selected slice is recorded on consecutive windows, and one watches whether it settles into a band. While the series jumps around, an individual value is not a decision about the rule. A conclusion applies to the band into which the series has settled, and appears only after the jumping has stopped. An illustration of such reading, not a series from an account: 78, 34, 11, 88, 45, 43, 41, 43, 45. The first four numbers do not add up to anything. The last five already lie close together, and only from this point is there anything to talk about. A calendar series on a working account is not assembled in this work.
+**A series of windows.** One window is one observation, however strong its plus or minus. The position of the selected slice is recorded on consecutive windows, and one watches whether it settles into a band. While the series jumps around, an individual value is not a decision about the rule. While the series jumps around, an individual value is not a decision about the rule. If it later sits in a band, that band is what a conclusion would refer to. Nothing here defines how flat the band must be, or after how many windows. An illustration, not a series from an account: 78, 34, 11, 88, 45, 43, 41, 43, 45. The first four jump. The last five lie close together. That is a description of this made-up series, not a rule that five observations are enough. A calendar series on a working account is not assembled in this work.
 
-How wide the champion's noise is, on this testbed, where replicates are independent. The SD of the champion's place is about twice the SD of the plain top-10% place: 28.5 against 15.3 on null M (200 replicates), 15.1 against 10.6 in configuration 2. The trade-count-matched slice is tighter still (4.4 in configuration 2, 9.1 on null S). One window of the slice is worth a few windows of the champion, not tens of them. Real windows share history, so they are dependent and this ratio is an upper bound, not a count of how many folds are enough. No such count is given.
+How wide the champion's noise is, on this testbed, where replicates are independent. The SD of the champion's place is about twice the SD of the plain top-10% place: 28.5 against 15.3 on null M (200 replicates), 15.1 against 10.6 in configuration 2. The trade-count-matched slice is tighter still (4.4 in configuration 2, 9.1 on null S). The slice's place moves less from replicate to replicate than the champion's. That ratio of standard deviations is not a conversion into a number of windows, and it is not a statement that one slice window replaces several champion windows. Real windows share history, so they are dependent, and the ratio above is an upper bound on the difference. No count of how many folds are enough is given.
 
 The same replicates show why three high champions are a weak check even when the ordering is real. In configuration 2 the ordering is preserved and the period is weak: the champion's place is at least 80 in 22 of 30 replicates, so three independent replicates all that high occur in about 0.39 of such trios. The matched top-10% place is at least 70 in 30 of 30. Under no ordering and a strong period the champion is high anyway: place at least 80 in 12 of 30 (configuration 5) and in 64 of 200 (null S). Three independent null-S champions all that high still occur in about 0.03 of trios. A matched slice at 70 or above occurs in 2 of 200 null-S replicates.
 
@@ -661,7 +661,7 @@ A short series therefore falls into one of four readings. None of them is a thre
 1. Champion, slice and ladder all fail. Either the ordering is not there, or the sample is too small to see it. The reading itself only says that more data would be needed to tell these apart.
 2. All three agree that the ordering is visible. The check is passed on this sample. It is not a promise that the next window pays.
 3. The champion is ordinary and the slice and the ladder are alive. The champion does not refute the procedure. Whether to trade the slice, or a group, rather than the single name is a decision made after the check, not a result of it.
-4. The champion is high and the ladder is dead. On this testbed that is what a strong period with no ordering looks like: in configuration 5 the champion's mean place is 67 and the matched slice's is 50, and the champion sits 14 places above the slice. When the ordering is actually preserved the same gap is 5 to 6 places (configurations 1 and 2). The hypothesis that the extreme top carries a premium the slice does not is not distinguished from this, and is not claimed.
+4. The champion is high and the ladder is dead. On this testbed a strong period with no ordering looks like this: in configuration 5 the champion's mean place is 67 and the matched top 10% sits at 50, so the champion is 17 places above that slice. This is not, by itself, a premium of the extreme top. When the ordering is preserved, the same matched gap is 13 places in configuration 1 (98 against 85 in Table 4.2) and about 0 in configuration 2 (85 against 85). Against the plain slice, without matching, the gaps are about 5, 6 and 14 places (configurations 1, 2 and 5). The hypothesis that the extreme top carries a premium the slice does not is not separated from the period level here, and is not claimed.
 
 The ladder, the rank correlation and the top-slice place are dependent readings of one ordering. Agreement among them is one observation counted three times, not three confirmations.
 
