@@ -12,6 +12,8 @@ Selection Procedure Portability (SPP) reads one out-of-sample step of a selectio
 
 The paper is [Selection Procedure Portability](Selection%20Procedure%20Portability.md). Version v2 is the citation above. Version v1 keeps the earlier title: https://doi.org/10.5281/zenodo.23324761
 
+[spp-interactive.html](spp-interactive.html) is a one-file toy of the sign and the slice. Open the file itself. GitHub's preview will not run it. The cutoffs on its cards are illustrative, not the paper's.
+
 On the testbed, how often the sign agrees with the preset ordering depends on how strong the test period is. The trade-count-matched place of the frozen slice depends on it much less:
 
 ![Share of replicates in which the reading matched the preset ordering, as a function of OOS period level.](figures/spp_level_curves.png)
