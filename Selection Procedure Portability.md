@@ -48,7 +48,7 @@ One step, three widths. They answer different questions, and they are allowed to
 
 | Reading | What is looked at | What a high value says | What it does not say |
 |---|---|---|---|
-| Champion | The one name ranked first IS, its OOS sum and its place | This name did well on this window | That the procedure carries over. One name on a few windows has no measurable dispersion |
+| Champion | The one name ranked first IS, its OOS sum and its place | This name did well on this window | That the procedure carries over. On a few windows its place is too noisy to separate a real rank from luck (Section 7) |
 | Top slice | The frozen group (here the top 10%), its median place and its gap | The group the rule froze sits above the set | That every name in it did, or that the ladder below it is alive |
 | Procedure | The whole set: decile ladder, rank correlation of IS score with OOS result, overlap of the top names | The ordering the rule used is still visible across the set | A money result. A declining ladder can sit entirely in the red |
 
@@ -650,6 +650,19 @@ The trade-count-matched comparison asks the neighboring question: does the diffe
 
 **A series of windows.** One window is one observation, however strong its plus or minus. The position of the selected slice is recorded on consecutive windows, and one watches whether it settles into a band. While the series jumps around, an individual value is not a decision about the rule. A conclusion applies to the band into which the series has settled, and appears only after the jumping has stopped. An illustration of such reading, not a series from an account: 78, 34, 11, 88, 45, 43, 41, 43, 45. The first four numbers do not add up to anything. The last five already lie close together, and only from this point is there anything to talk about. A calendar series on a working account is not assembled in this work.
 
+How wide the champion's noise is, on this testbed, where replicates are independent. The SD of the champion's place is about twice the SD of the plain top-10% place: 28.5 against 15.3 on null M (200 replicates), 15.1 against 10.6 in configuration 2. The trade-count-matched slice is tighter still (4.4 in configuration 2, 9.1 on null S). One window of the slice is worth a few windows of the champion, not tens of them. Real windows share history, so they are dependent and this ratio is an upper bound, not a count of how many folds are enough. No such count is given.
+
+The same replicates show why three high champions are a weak check even when the ordering is real. In configuration 2 the ordering is preserved and the period is weak: the champion's place is at least 80 in 22 of 30 replicates, so three independent replicates all that high occur in about 0.39 of such trios. The matched top-10% place is at least 70 in 30 of 30. Under no ordering and a strong period the champion is high anyway: place at least 80 in 12 of 30 (configuration 5) and in 64 of 200 (null S). Three independent null-S champions all that high still occur in about 0.03 of trios. A matched slice at 70 or above occurs in 2 of 200 null-S replicates.
+
+A short series therefore falls into one of four readings. None of them is a threshold.
+
+1. Champion, slice and ladder all fail. Either the ordering is not there, or the sample is too small to see it. The reading itself only says that more data would be needed to tell these apart.
+2. All three agree that the ordering is visible. The check is passed on this sample. It is not a promise that the next window pays.
+3. The champion is ordinary and the slice and the ladder are alive. The champion does not refute the procedure. Whether to trade the slice, or a group, rather than the single name is a decision made after the check, not a result of it.
+4. The champion is high and the ladder is dead. On this testbed that is what a strong period with no ordering looks like: in configuration 5 the champion's mean place is 67 and the matched slice's is 50, and the champion sits 14 places above the slice. When the ordering is actually preserved the same gap is 5 to 6 places (configurations 1 and 2). The hypothesis that the extreme top carries a premium the slice does not is not distinguished from this, and is not claimed.
+
+The ladder, the rank correlation and the top-slice place are dependent readings of one ordering. Agreement among them is one observation counted three times, not three confirmations.
+
 The library is a folder of this repository, `scripts/spp/` (NumPy only), not a path on one machine. Its description is `scripts/spp/README.md`. After cloning, run Python from that `scripts/` folder, or add the folder to `sys.path`.
 
 ```python
@@ -668,7 +681,7 @@ print(report["place"], report["gap_exact"])                    # slice position:
 print(percentile_matched, gap_sd)                              # side row on frequency
 ```
 
-The three prints are the three readings: the champion, the frozen slice, and the frequency side row. They may not agree. The third line says what in this situation is tied to entry frequency, and does not replace the sum. The top-slice cut within a block of equal score values depends on row order; the size of this effect was not measured separately.
+The first two prints are the champion and the frozen slice. They may not agree. The third is the frequency side row, not the procedure: the procedure is the ladder and the rank correlation, which this snippet does not compute. The side row says what in this situation is tied to entry frequency, and does not replace the sum. The top-slice cut within a block of equal score values depends on row order; the size of this effect was not measured separately.
 
 ## 8. Conclusion
 
