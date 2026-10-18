@@ -60,21 +60,23 @@ A candidate is a rule that has, on each segment, a sum of the outcomes of its tr
 
 **Sign.** The OOS sum of the selected candidate (the one the selection rule ranked best IS). This is how the standard walk-forward step reads it. For top-5 it is the sign of the average sum of the five best.
 
-**Percentile.** Candidates are ordered by OOS sum from worst to best. The percentile of the candidate at position j in this order (j = 1 is worst, n is the set size):
+**Percentile.** Candidates are ordered by OOS sum from worst to best. The percentile of the candidate at position \(j\) in this order (\(j = 1\) is worst, \(n\) is the set size):
 
-```
-percentile_j = 100 * (j - 1) / n
-```
+\[
+\mathrm{percentile}_j = 100 \cdot (j - 1) / n
+\nonumber
+\]
 
-The worst has 0, the best has 100(n − 1)/n, i.e. just under 100. The percentile of a top slice is the median of its members' percentiles, not the percentile of their average sum. With ties in sums, candidates are ordered by row number, and the last of the tied is considered selected. In the library code the percentile is called `place`.
+The worst has 0, the best has \(100(n-1)/n\), i.e. just under 100. The percentile of a top slice is the median of its members' percentiles, not the percentile of their average sum. With ties in sums, candidates are ordered by row number, and the last of the tied is considered selected. In the library code the percentile is called `place`.
 
-**Gap.** For a top slice G of size k (1, 5, 10 or 30% of the set; the main slice is 10%), the gap is the mean OOS sum of the top slice minus the expected mean of a random sample of the same size:
+**Gap.** For a top slice \(G\) of size \(k\) (1, 5, 10 or 30% of the set; the main slice is 10%), the gap is the mean OOS sum of the top slice minus the expected mean of a random sample of the same size:
 
-```
-gap(G) = mean(test[G]) - E[mean(test[R])]
-```
+\[
+\mathrm{gap}(G) = \mathrm{mean}(\mathrm{test}[G]) - \mathrm{E}[\mathrm{mean}(\mathrm{test}[R])]
+\nonumber
+\]
 
-Here R is a random sample of k candidates without replacement. The expectation is computed exactly, with no random samples generated: under sampling without replacement the expected sample mean equals the set mean.
+Here \(R\) is a random sample of \(k\) candidates without replacement. The expectation is computed exactly, with no random samples generated: under sampling without replacement the expected sample mean equals the set mean.
 
 **Trade-count-matched gap.** A candidate's OOS sum depends on its number of trades: on a strong segment it grows with it, on a weak one it falls, if the period level passes into the P&L through entry frequency. The plain gap then rewards or punishes frequency. The trade-count-matched gap compares the top slice not with an arbitrary random sample but with a sample of the same size and the same composition across ten IS trade-count quantile bins. The expectation of such a sample is the bin means weighted by the number of top-slice members in each bin; it is computed exactly.
 
@@ -145,7 +147,7 @@ Observations.
 
 1. The sign of the selected candidate is positive in 96 of 200 type-M replicates and in 200 of 200 type-S replicates. The sign follows the OOS level.
 2. The plain gap is biased by level: the mean is +5.5 in type S versus −0.4 in type M. For the matched gap the means are +0.3 and −0.2, and the SD across replicates (both types together) falls from 8.7 to 5.4.
-3. The SD of the gap across replicates is 5.8 times the SD within a replicate (10% slice; by type 6.6 for M and 4.7 for S, so the difference of type means does not inflate the ratio). The reason is not z itself but that a random sample of candidates does not preserve the cluster concentration of the top slice (4.9): the ratio is a symptom of this, not independent evidence. Hence the standardized gap within a single replicate, z, overstates confidence: |z| ≥ 5 in 39% of null replicates, and the 95th percentile of |z| is 11.6. The work does not use z.
+3. The SD of the gap across replicates is 5.8 times the SD within a replicate (10% slice; by type 6.6 for M and 4.7 for S, so the difference of type means does not inflate the ratio). The reason is not z itself but that a random sample of candidates does not preserve the cluster concentration of the top slice (4.9): the ratio is a symptom of this, not independent evidence. Hence the standardized gap within a single replicate, z, overstates confidence: \(|z| \geq 5\) in 39% of null replicates, and the 95th percentile of |z| is 11.6. The work does not use z.
 4. The thresholds of the matched top-10% percentile are the 5% and 95% of the pooled null distribution of both types: 31 and 67. The verdict "carries over" is a percentile of at least 67, "inversion" at most 31, otherwise "no verdict". For the plain measure the thresholds are 30 and 74; for the rule "average trade" at equal trade count, 30 and 68.
 5. Check on held-out null replicates not used to set the thresholds (seeds 8000–8199, 200 per type, 400 total): false "carries over" 22 of 400 (5.5%), false "inversion" 16 of 400 (4.0%); by type: M — 13 of 200 and 11 of 200, S — 9 of 200 and 5 of 200.
 6. The threshold depends on the clustering of the top slice. The top 10% in type M occupy on average 9.7 clusters (effective number of clusters — the inverse Herfindahl index of cluster shares within the top slice — 6.3), in type S 21.6 (10.0). The SD of the matched gap is 6.3 and 4.3; the false verdict in each tail on null replicates is 8.5% and 1.5%. A common threshold is a compromise and does not transfer to a set with different clustering (measured in 4.9).
@@ -361,10 +363,10 @@ There are always 2,500 candidates; only the partition changes: K clusters of 2,5
 | 125 | +0.65 | +0.70 | 30/30 | 30/30 |
 | 500 | +0.64 | +0.69 | 30/30 | 30/30 |
 
-One and the same ordering coefficient of 0.4 appears as a rank IC of average trade across candidates of +0.14 at K = 2, +0.48 at 5, +0.60 at 10 and +0.66 at 50; on cluster means at K ≥ 5 it lies between +0.54 and +0.72. The verdict "carries over" at the K = 50 threshold: 2 of 30 at K = 2, 9 of 30 at 5, 19 of 30 at 10 and 29 of 30 at 50. Three consequences follow.
+One and the same ordering coefficient of 0.4 appears as a rank IC of average trade across candidates of +0.14 at K = 2, +0.48 at 5, +0.60 at 10 and +0.66 at 50; on cluster means at \(K \geq 5\) it lies between +0.54 and +0.72. The verdict "carries over" at the K = 50 threshold: 2 of 30 at K = 2, 9 of 30 at 5, 19 of 30 at 10 and 29 of 30 at 50. Three consequences follow.
 
 - The label for the strength of an association ("weak", "strong") across candidates depends on the number of clusters.
-- The conversion of the historical windows' IC (no higher than +0.30) into an ordering coefficient no higher than 0.2 (4.4) holds at K ≥ 10. At K = 2 a coefficient of 0.4 gives an IC of +0.14, at K = 5 +0.48, so for a set with few clusters this conversion is not guaranteed, and the number of clusters of historical sets is unknown.
+- The conversion of the historical windows' IC (no higher than +0.30) into an ordering coefficient no higher than 0.2 (4.4) holds at \(K \geq 10\). At K = 2 a coefficient of 0.4 gives an IC of +0.14, at K = 5 +0.48, so for a set with few clusters this conversion is not guaranteed, and the number of clusters of historical sets is unknown.
 - Power at coefficient 0.4 and a fixed threshold falls as K decreases, but this is partly the width of the null given the tie of trade count to the cluster (4.12). The curve over ordering coefficient (4.4) was not built for other K.
 
 Limit of the experiment. Here the partition of the world changes, not the sampling scheme; the null that selects whole clusters is in 4.13. Clusters are of equal size; for historical sets sizes and boundaries are unknown.
@@ -408,9 +410,9 @@ False verdicts on held-out null replicates: "carries over" / "inversion" out of 
 | Sign of selected "+" | — | 91 of 200 | 200 of 200 | — | — |
 | Selected at or above median (PBO indicator) | — | 95 of 200 | 145 of 200 | — | — |
 
-Number of "carries over" verdicts (for the sign and the indicator, "keep") out of 30; thresholds of both types. "Carries over" is correct in configurations 1 and 2 and at α > 0; in configurations 3, 4, 5 and at α = 0 there is no ordering or it is inverted.
+Number of "carries over" verdicts (for the sign and the indicator, "keep") out of 30; thresholds of both types. "Carries over" is correct in configurations 1 and 2 and at \(\alpha > 0\); in configurations 3, 4, 5 and at \(\alpha = 0\) there is no ordering or it is inverted.
 
-| Measure | Conf. 1 | Conf. 2 | Conf. 3 | Conf. 4 | Conf. 5 | α = 0.2 (shift +0.05) | α = 0.2 (shift 0.00) | α = 0.4 (shift 0.00) |
+| Measure | Conf. 1 | Conf. 2 | Conf. 3 | Conf. 4 | Conf. 5 | \(\alpha = 0.2\) (shift +0.05) | \(\alpha = 0.2\) (shift 0.00) | \(\alpha = 0.4\) (shift 0.00) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | SPP: top-10% percentile | 30 | 30 | 0 | 4 | 1 | 19 | 21 | 29 |
 | SPP: top-10% gap, SD | 30 | 30 | 0 | 5 | 0 | 23 | 24 | 30 |
@@ -454,7 +456,7 @@ Limit of the experiment: one generator, the same replicates. The number of clust
 
 Two features of the testbed worked in the method's favor: the level acts on the sum only through trade count, and trade count is assigned to the cluster, not the candidate. Both are checked on generator variants (`spp_catalog_seven.py`; at default values the replicates coincide bit for bit with the main generator). Numbers are given at the base testbed's thresholds. Matching everywhere is on IS trade count, as on historical windows.
 
-**A second level channel.** Each candidate is given a sensitivity to the level shift beta_i = 1 + s·u_i (u_i uniform from −1 to 1, independent of trade count); the probability of a plus is taken from the latent quality plus beta_i times the shift. The outcome of a taken opportunity is still shared by everyone who took it. The second variant: OOS trade count equals IS trade count times e to the power of 0.3·epsilon_i (per-candidate noise). The table gives "carries over" in configurations and false "carries over" on 100 null replicates of type M; measures are SPP / matched Spearman / sign "+".
+**A second level channel.** Each candidate is given a sensitivity to the level shift \(\beta_i = 1 + s\,u_i\) (\(u_i\) uniform from −1 to 1, independent of trade count); the probability of a plus is taken from the latent quality plus \(\beta_i\) times the shift. The outcome of a taken opportunity is still shared by everyone who took it. The second variant: OOS trade count equals IS trade count times \(e^{0.3\varepsilon_i}\) (per-candidate noise). The table gives "carries over" in configurations and false "carries over" on 100 null replicates of type M; measures are SPP / matched Spearman / sign "+".
 
 | Generator variant | Conf. 2 (ordering preserved, weak segment): SPP / Spearman / sign of 30 | Conf. 3 (inversion) | Conf. 4 (no ordering, middle) | Conf. 5 (no ordering, strong) | Null M of 100: SPP / Spearman |
 |---|---:|---:|---:|---:|---:|
