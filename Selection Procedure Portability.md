@@ -1,22 +1,26 @@
-# The sign of the selected candidate's P&L conflates the level of the test period with the quality of selection
+# Selection Procedure Portability: three readings of one out-of-sample step
 
 Matvey Kiriakov  
 Independent  
-Working paper, 11 October 2026.
+Working paper. First public version 11 October 2026; this revision October 2026. The deposited version (Zenodo, 11 October 2026) keeps the earlier title.
 
 SPP — Selection Procedure Portability: whether a selection rule's advantage carries over out of sample.
 
 ## Abstract
 
-The standard walk-forward step reports the sign of the out-of-sample (OOS) P&L of a single candidate: the one the selection rule ranked first in-sample (IS). That sign conflates two facts: what kind of period the test period was for the whole candidate set, and whether the selected candidates' advantage survived. The familiar labels (non-robust, overfit, bad period) do not answer this question.
+The standard walk-forward step reports the sign of the out-of-sample (OOS) P&L of a single candidate: the one the selection rule ranked first in-sample (IS). That sign mixes two facts: what kind of period the test period was for the whole candidate set, and whether the selected candidates' advantage survived. It can be wrong in either direction. It does not, by itself, say only what the period was. The familiar labels (non-robust, overfit, bad period) do not answer the question either.
 
-To make this visible, I build a simulation testbed in which the level of the period and the ordering among candidates are set in advance. On it one can see when the sign is wrong and the position of the selected top slice is not. Alongside it sits a comparison against candidates with the same number of trades: it removes the part of the level that passes through trade count, but it does not replace the P&L. Six windows of one trading system and six windows of another algorithm show the same reading on real history. How often the sign is wrong on other people's data is not estimated by these windows.
+The same step can be read at three widths. The champion is one name. The top slice is the frozen group. The procedure is the ordering of the whole set: the decile ladder, the rank correlation, the overlap of the top names. These three can disagree, and a high champion with a dead ladder is not the same observation as a middling champion with a live one. How often either pattern occurs is not estimated here.
+
+To make the sign's errors visible, I build a simulation testbed in which the level of the period and the ordering among candidates are set in advance. On it the share of pluses moves with the level, while the place of the frozen slice need not. A comparison against candidates with the same number of trades, and a ranking by average trade, remove the part of the level that passes through trade count on this testbed. They do not replace the P&L. Six windows of one trading system and six windows of another algorithm show the same three readings on real history. How often the sign is wrong on other people's data is not estimated by these windows.
 
 ## 1. Question and contribution
 
 The standard check works as follows. In-sample, the rule ranks one candidate first (sometimes five). On the next segment one looks at that candidate's P&L and its sign. On a strong segment almost any candidate gets a plus. On a weak segment almost none does. In both cases the ordering among candidates may survive, vanish, or flip, and the sign cannot tell these apart.
 
-**Contribution.** The question this sign does not ask is whether the advantage of the selected candidates survived, or whether the plus and the minus belong to the period. The sign can be wrong, and is. On a strong period it can be positive with no ordering at all, and even when the ordering is flipped. On a weak period it can be negative while the ordering is intact. Not on every window: the share of pluses tracks the level. These cases are worked through after the testbed is described, with no claim about how often they occur in the market.
+**Contribution.** The sign can be wrong, and is, in both directions. On a strong period it can be positive with no ordering at all, and even when the ordering is flipped. On a weak period it can be negative while the ordering is intact. The share of pluses moves with the level of the period; that is not the same as the sign reporting only the level. These cases are worked through after the testbed is described, with no claim about how often they occur in the market.
+
+The step is then read at three widths, defined in Section 2. The champion answers for one name. The top slice answers for the group the rule froze. The procedure answers for the ordering of the whole set. With few windows the champion's place is a noisy point: three high places do not establish that the procedure carries over, and three middling places do not establish that it failed, if the ladder and the rank correlation say otherwise. No frequency of either disagreement is estimated. The reading is a necessary check before trusting a rule, not a gate with a threshold.
 
 Non-robustness, overfitting, and a bad period do not close this question. The testbed exists to make the cases visible.
 
@@ -28,43 +32,55 @@ Reading the same step this way is useful in three places.
 
 **Relation to known procedures.** These methods answer different questions.
 
-- Probability of backtest overfitting (PBO; Bailey, Borwein, López de Prado and Zhu) is the share of splits in which the candidate selected IS lands below the median OOS; it is computed via combinatorially symmetric cross-validation (CSCV).
+- Probability of backtest overfitting (PBO; Bailey, Borwein, López de Prado and Zhu) is computed via combinatorially symmetric cross-validation (CSCV). The framework keeps the distribution of the selected candidate's rank logits. The share of splits in which that candidate lands below the OOS median is one summary of that distribution, the below-median indicator. Sections 4.6 and 4.14 compare that indicator, not the whole of PBO.
 - The deflated Sharpe ratio compares the best candidate's Sharpe ratio to a threshold that grows with the number of trials, and does not look at the next segment.
 - The tests of White (2000) and Hansen (2005) ask whether the best of many rules beats a given benchmark by more than reuse of the same history would explain.
 
-In Section 4.6, on the same splits, only the PBO indicator ("below median") and the sign ("in the red") are compared. The gap at equal trade count is a variant of a characteristic-matched benchmark (Daniel, Grinblatt, Titman and Wermers, 1997). Combinatorial purged cross-validation (CPCV) is not implemented in this work.
+In Section 4.6, on the same splits, the below-median indicator and the sign ("in the red") are compared, both computed on the raw sum. Section 4.14 repeats the indicator on a per-trade measure and reports the logit distribution. The gap at equal trade count is a variant of a characteristic-matched benchmark (Daniel, Grinblatt, Titman and Wermers, 1997). Combinatorial purged cross-validation (CPCV) is not implemented in this work.
 
 **Terminology.** Terms are standard where one exists. A *replicate* is one realization of the generator (one seed). The *testbed* is the simulation testbed. The *gap* is the excess of the top slice over a benchmark (top minus average). The *percentile* is the percentile rank. *Rank IC* is the Spearman rank correlation. The *decile sort* is the decile ladder. The *period level* is the common (market) component of a period. *Trade-count-matched* means benchmarked against characteristic-matched peers, here by number of trades (Daniel et al., 1997). The *effective number of clusters* is the inverse Herfindahl index of cluster shares. Three similar words are used strictly differently throughout.
 
 "SPP" is the name of this reading. "Ordering preserved" is a property of a replicate on the testbed: the ordering coefficient on the test segment is positive. "Carries over" in testbed tables means the trade-count-matched percentile crosses its threshold. This is a count of the generator, in which the period level enters the P&L through trade count; it is not the name of a contribution.
 
-## 2. Three quantities
+## 2. Three readings
 
-SPP reads the test step through how the selected candidate or the selected top slice performed and through its position in the candidate set on the test. The trade-count-matched comparison is a side diagnostic. The "carries over / no verdict / inversion" threshold is a calibration of this testbed. It is not a rule for other people's history and not a definition of SPP.
+One step, three widths. They answer different questions, and they are allowed to disagree.
+
+| Reading | What is looked at | What a high value says | What it does not say |
+|---|---|---|---|
+| Champion | The one name ranked first IS, its OOS sum and its place | This name did well on this window | That the procedure carries over. One name on a few windows has no measurable dispersion |
+| Top slice | The frozen group (here the top 10%), its median place and its gap | The group the rule froze sits above the set | That every name in it did, or that the ladder below it is alive |
+| Procedure | The whole set: decile ladder, rank correlation of IS score with OOS result, overlap of the top names | The ordering the rule used is still visible across the set | A money result. A declining ladder can sit entirely in the red |
+
+"Portability" in this paper is the third row, read together with the second: the ordering is visible and the frozen group is not contradicted by it. It is a necessary check, not a calibrated gate. There is no threshold at which the procedure is declared to carry over on someone else's history. The champion is reported beside them and is not the check.
+
+SPP is the name of this reading. The trade-count-matched comparison is a side diagnostic, defined below. The "carries over / no verdict / inversion" label in the testbed tables is a calibration of this generator. It is not a rule for other people's history and not the definition of portability.
 
 A candidate is a rule that has, on each segment, a sum of the outcomes of its trades. On a segment the candidate set is ordered by this sum. All definitions refer to one step: the selection rule is declared IS, and the composition of the top slice is not revised on the test. Rank IC in this work is the Spearman coefficient, i.e. the correlation of ordinal ranks.
 
 **Sign.** The OOS sum of the selected candidate (the one the selection rule ranked best IS). This is how the standard walk-forward step reads it. For top-5 it is the sign of the average sum of the five best.
 
-**Percentile.** Candidates are ordered by OOS sum from worst to best. The percentile of the candidate at position $j$ in this order ($j=1$ is worst, $n$ is the set size):
+**Percentile.** Candidates are ordered by OOS sum from worst to best. The percentile of the candidate at position j in this order (j = 1 is worst, n is the set size):
 
 ```
 percentile_j = 100 * (j - 1) / n
 ```
 
-The worst has 0, the best has $100(n-1)/n$, i.e. just under 100. The percentile of a top slice is the median of its members' percentiles, not the percentile of their average sum. With ties in sums, candidates are ordered by row number, and the last of the tied is considered selected. In the library code the percentile is called `place`.
+The worst has 0, the best has 100(n − 1)/n, i.e. just under 100. The percentile of a top slice is the median of its members' percentiles, not the percentile of their average sum. With ties in sums, candidates are ordered by row number, and the last of the tied is considered selected. In the library code the percentile is called `place`.
 
-**Gap.** For a top slice $G$ of size $k$ (1, 5, 10 or 30% of the set; the main slice is 10%), the gap is the mean OOS sum of the top slice minus the expected mean of a random sample of the same size:
+**Gap.** For a top slice G of size k (1, 5, 10 or 30% of the set; the main slice is 10%), the gap is the mean OOS sum of the top slice minus the expected mean of a random sample of the same size:
 
 ```
 gap(G) = mean(test[G]) - E[mean(test[R])]
 ```
 
-Here $R$ is a random sample of $k$ candidates without replacement. The expectation is computed exactly, with no random samples generated: under sampling without replacement the expected sample mean equals the set mean.
+Here R is a random sample of k candidates without replacement. The expectation is computed exactly, with no random samples generated: under sampling without replacement the expected sample mean equals the set mean.
 
 **Trade-count-matched gap.** A candidate's OOS sum depends on its number of trades: on a strong segment it grows with it, on a weak one it falls, if the period level passes into the P&L through entry frequency. The plain gap then rewards or punishes frequency. The trade-count-matched gap compares the top slice not with an arbitrary random sample but with a sample of the same size and the same composition across ten IS trade-count quantile bins. The expectation of such a sample is the bin means weighted by the number of top-slice members in each bin; it is computed exactly.
 
 The trade-count-matched percentile is the candidate's percentile among candidates with a similar number of trades. For the selection rule "trade count", when the slice fills whole trade-count quantile bins (the main 10% slice with ten bins; likewise 30%), the matched gap is zero and the percentile is 50 by construction, up to ties in trade count. At 1% and 5% the slice is only part of the top bin, so zero and 50 are not identities. On this testbed such a row mutes the part of the level that passes through trade count. It does not replace the P&L of the selected. With a different level channel this no longer holds (4.12).
+
+On this testbed the same mute is obtained more simply by changing the measure. The sum of a candidate is its number of trades times its average outcome, and the outcomes are +1 or −1, so the period level scales the sum through trade count. Ranking by average trade (sum divided by trades) removes that scale from the ranking. Matching on trade count is the same correction for a reader who wants to keep reporting the sum. Section 4.14 holds selection skill fixed and varies the level and the spread of trade counts: the below-median indicator on the sum moves with the level, and the same indicator on average trade does not. Where a parameter itself chooses how often a rule trades, trade count is part of the selection, and neither correction is subtracted from the sum (Section 5, Section 7).
 
 **Trade-count-matched rank IC.** Next to the sign and the position, one can read the rank IC between the IS score and the OOS sum within the same ten trade-count bins (the mean of Spearman coefficients weighted by bin size, `spearman_matched` in the library). On the testbed it separates ordering from level just as the matched percentile does (4.11). In reading a step on historical data it enters as the same side row.
 
@@ -264,7 +280,7 @@ The same chains are cut in two ways: one segment as test and five as training (6
 | 5 | middle | 17/30 | 15/30 | 18/30 | 45 | 50 |
 | 6 | strong | 6/30 | 0/30 | 13/30 | 72 | 50 |
 
-The top-slice gap is negative: on segments 1–3 (ordering preserved) in 0 of 30 chains each; on segment 4 (inversion) in 30 of 30; on segments 5 and 6 (no ordering) in 18 of 30 and 13 of 30. The "below median" indicator is distorted by trade frequency. On segment 6 there is no ordering, yet the indicator fires in only 6 of 30 instead of roughly half: frequency lifts the selected's percentile to 72, while the top slice at equal trade count stands at 50. On the weak segment 3 the ordering is preserved, yet the indicator fires in 7 of 30.
+The top-slice gap is negative: on segments 1–3 (ordering preserved) in 0 of 30 chains each; on segment 4 (inversion) in 30 of 30; on segments 5 and 6 (no ordering) in 18 of 30 and 13 of 30. The below-median indicator in this table is computed on the raw sum, and on the sum it depends on the level through trade count. On segment 6 there is no ordering, yet the indicator fires in only 6 of 30 instead of roughly half: frequency lifts the selected's percentile to 72, while the top slice at equal trade count stands at 50. On the weak segment 3 the ordering is preserved, yet the indicator fires in 7 of 30. Computed on average trade, on the same chains, it fires in 0 of 30 on segment 3 and in 18 of 30 on segment 6 (4.14). The dependence is a property of the sum, not of the PBO framework.
 
 The share of splits below median, by chain: for one segment 0.33 with an SD of 0.17 across chains (from 0.00 to 0.67), for triples 0.26 with an SD of 0.14 (from 0.00 to 0.55). An estimate from a single chain, with the world's structure unchanged, is scattered from zero to 0.67. The share "in the red" (probability of loss) on triples is 0.07, the share of splits with negative top-slice gap 0.24.
 
@@ -426,9 +442,9 @@ Three states of ordering instead of two (configurations 1–5, thresholds of bot
 | No ordering (configurations 4 and 5) | 60 | 5 / 51 / 4 | 3 / 54 / 3 |
 | Inversion (configuration 3) | 30 | 0 / 0 / 30 | 0 / 0 / 30 |
 
-1. **On this testbed, invariance to level comes from matching on trade count.** Rank IC without matching depends on level just like the plain gap: on the weakest segment (−1.25) it sees carry-over in 18 of 30 replicates (slice percentile: 30 of 30), and with OOS without ordering at shift +0.40 it gives a false "carries over" in 17 of 30 (slice percentile: 3 of 30). Spearman within trade-count bins holds up the same way: 30 of 30 and 0 of 30. The choice between slice percentile and this IC is not a contribution.
+1. **On this testbed, invariance to level comes from taking trade count out of the measure.** Rank IC on the raw sum depends on level just like the plain gap: on the weakest segment (−1.25) it sees carry-over in 18 of 30 replicates (slice percentile: 30 of 30), and with OOS without ordering at shift +0.40 it gives a false "carries over" in 17 of 30 (slice percentile: 3 of 30). Spearman within trade-count bins holds: 30 of 30 and 0 of 30. Ranking by average trade does the same job without bins (4.14). Matching is that correction kept in sum units. The choice between slice percentile and this IC is not a contribution.
 2. **The top slice and the matched rank IC read the same thing on this testbed.** False "carries over" on held-out null replicates: 15 of 400 against 22 of 400 for SPP. At ordering coefficient 0.2, "carries over" is seen in 26 of 30 and 27 of 30 replicates against 19 of 30 and 21 of 30; Spearman across the set is more powerful (30 of 30 and 28 of 30) but loses on the weak segment. In configurations 1–3 the results coincide. Ordering on the testbed is common to the whole set, so a whole-set measure and a top-slice measure differ little; a set in which ordering is preserved only at the top was not modeled.
-3. **The "below median" indicator and the sign.** The indicator is distorted by frequency just like the sign: with no ordering it says "keep" in 14 of 30 and 23 of 30 replicates of configurations 4 and 5. The sign: in 14 of 30 and 30 of 30.
+3. **The below-median indicator and the sign, both on the sum.** With no ordering the indicator says "keep" in 14 of 30 and 23 of 30 replicates of configurations 4 and 5. The sign: in 14 of 30 and 30 of 30. Both move with the level when the measure is the sum (4.14).
 4. **Type of null.** Null M (ordering existed IS, vanished OOS) is what the practitioner fears most. For it the false "carries over" of SPP on held-out replicates is 13 of 200 at the common threshold and 12 of 200 at the threshold tuned on type M alone. The nominal 5% is not reached even with a threshold tuned on M itself, so the cause is not only the mixture of null types in the common threshold (on type S the same thresholds give 6 of 200 and 9 of 200). For Spearman within bins: 13 of 200 and 10 of 200. The excess over 5% on 200 replicates is about one standard error (1.7 points), i.e. 5% cannot be distinguished from 6–7% at this number of replicates.
 5. **"No verdict" and the count of correct decisions.** In replicates with known state of ordering, SPP gives a definite verdict (carries over or inversion) in 99 of 150 (66%), of which 90 (91%) are correct. When there is no ordering, "no verdict" in 51 of 60, false "carries over" in 5 of 60, false "inversion" in 4 of 60. The count of "correct decisions" (4.4, 4.5, 4.8) counts "no verdict" as a correct "stop"; here it is broken down. For Spearman within bins coverage is 64% and accuracy among definite verdicts 94%.
 
@@ -438,7 +454,7 @@ Limit of the experiment: one generator, the same replicates. The number of clust
 
 Two features of the testbed worked in the method's favor: the level acts on the sum only through trade count, and trade count is assigned to the cluster, not the candidate. Both are checked on generator variants (`spp_catalog_seven.py`; at default values the replicates coincide bit for bit with the main generator). Numbers are given at the base testbed's thresholds. Matching everywhere is on IS trade count, as on historical windows.
 
-**A second level channel.** Each candidate is given a sensitivity to the level shift $\beta_i = 1 + s\,u_i$ ($u_i$ uniform from −1 to 1, independent of trade count); the probability of a plus is taken from the latent quality plus $\beta_i\cdot$shift. The outcome of a taken opportunity is still shared by everyone who took it. The second variant: OOS trade count equals IS trade count times $e^{0.3\varepsilon_i}$ (per-candidate noise). The table gives "carries over" in configurations and false "carries over" on 100 null replicates of type M; measures are SPP / matched Spearman / sign "+".
+**A second level channel.** Each candidate is given a sensitivity to the level shift beta_i = 1 + s·u_i (u_i uniform from −1 to 1, independent of trade count); the probability of a plus is taken from the latent quality plus beta_i times the shift. The outcome of a taken opportunity is still shared by everyone who took it. The second variant: OOS trade count equals IS trade count times e to the power of 0.3·epsilon_i (per-candidate noise). The table gives "carries over" in configurations and false "carries over" on 100 null replicates of type M; measures are SPP / matched Spearman / sign "+".
 
 | Generator variant | Conf. 2 (ordering preserved, weak segment): SPP / Spearman / sign of 30 | Conf. 3 (inversion) | Conf. 4 (no ordering, middle) | Conf. 5 (no ordering, strong) | Null M of 100: SPP / Spearman |
 |---|---:|---:|---:|---:|---:|
@@ -449,8 +465,8 @@ Two features of the testbed worked in the method's favor: the level acts on the 
 | second channel 1.0 and trades ±30% | 0 / 1 / 3 | 0 / 0 / 0 | 2 / 2 / 10 | 0 / 0 / 30 | 9 / 8 |
 | trades not tied to cluster | 30 / 30 / 10 | 0 / 0 / 6 | 1 / 4 / 14 | 2 / 0 / 30 | 10 / 9 |
 
-1. **A second channel deprives the method of weak ordering on the weak segment.** In configuration 2 (ordering preserved, weak segment) SPP's "carries over" is seen in 20 of 30 replicates at $s = 0.5$ and in 0 of 30 at $s = 1.0$ against 30 of 30 at base; matched Spearman 29 of 30 and 3 of 30; sign "+" 6 of 30 and 4 of 30. A probable cause (not checked separately): the IS leaders are partly leaders in sensitivity, and on the weak segment they lose the most, so the realized ordering ceases to match the ordering coefficient. Matching on trade count does not fix this, and none of the tested measures restores the testbed's truth.
-2. **The error goes toward missing, not toward false "carries over".** Inversion (configuration 3) still gives "carries over" in 0 of 30 replicates; false "carries over" in configurations 4 and 5 is no higher than 2 of 30 and 0 of 30 at $s = 1.0$; on null replicates M, SPP 6 of 100, Spearman 7 of 100.
+1. **A second channel deprives the method of weak ordering on the weak segment.** In configuration 2 (ordering preserved, weak segment) SPP's "carries over" is seen in 20 of 30 replicates at s = 0.5 and in 0 of 30 at s = 1.0 against 30 of 30 at base; matched Spearman 29 of 30 and 3 of 30; sign "+" 6 of 30 and 4 of 30. A probable cause (not checked separately): the IS leaders are partly leaders in sensitivity, and on the weak segment they lose the most, so the realized ordering ceases to match the ordering coefficient. Matching on trade count does not fix this, and none of the tested measures restores the testbed's truth.
+2. **The error goes toward missing, not toward false "carries over".** Inversion (configuration 3) still gives "carries over" in 0 of 30 replicates; false "carries over" in configurations 4 and 5 is no higher than 2 of 30 and 0 of 30 at s = 1.0; on null replicates M, SPP 6 of 100, Spearman 7 of 100.
 3. **A ±30% change in trade count between IS and OOS does not break the method.** Configuration 2: 29 of 30 for SPP, 30 of 30 for Spearman; null replicates M: 6 of 100 and 9 of 100. Matching on IS trade count remains an approximation, but at this noise size it holds.
 4. **Consequence.** Comparison at equal trade count mutes the level as long as it acts on the sum through trade count. With a different sensitivity of candidates to the regime, neither the slice percentile nor Spearman within bins sees weak ordering on the weak segment. Whether real sets have such a channel, the work does not know. The realized ordering in these replicates was not measured separately: 0 of 30 can mean blindness of the reading, or that the ordering in the outcomes has already diverged from the coefficient.
 
@@ -501,6 +517,22 @@ Trade count per cluster (as in the main testbed):
 3. **Spearman is more powerful at small K, but at K = 125 is worse calibrated.** False "carries over" on null M is 9 of 40 against 4 of 40 for SPP. The cause was not investigated; a possible explanation is residual association within trade-count bins that the permutation destroys.
 4. **Tying trade count to the cluster reduces power.** With trade count per cluster, "carries over" at 0.4 for SPP: 5 of 30 at K = 10 and 20 of 30 at K = 25 against 16 of 30 and 28 of 30.
 5. **Conclusion.** The non-transferability of the threshold (4.9) is a property of the candidate-level null, not of the method: a null that preserves clusters gives calibration near nominal. But it requires cluster labels; estimating them on historical sets (by closeness of parameters or results) was not attempted in this work.
+
+### 4.14 The below-median indicator under a frequency-neutral measure
+
+The indicator in 4.6 is one summary of a rank-logit distribution, computed there on the raw sum. Here the same chains, and a separate controlled generator, recompute it on three measures. The same measure is used IS, to choose the champion, and OOS, to place it. Ties use the average rank. `sum` is the total of the +1/−1 outcomes. `avg` is the sum divided by the number of trades. `tstat` is the sum divided by the square root of the number of trades: with outcomes of ±1 the standard error of the sum grows like that square root, so this is a risk-comparable score that only partly removes frequency. The script is `spp_neutral_metric_study.py`. It does not refit the chains of 4.6; on the sum, with average ranks, the six segments reproduce 4.6 exactly (0, 0, 7, 29, 17, 6 of 30).
+
+**Same chains, one segment as test.** The indicator on `avg` fires in 0 of 30 on the weak segment where the ordering is kept (segment 3; the sum fires in 7 of 30) and in 18 of 30 on the strong segment with no ordering (segment 6; the sum fires in 6 of 30). `tstat` lies between them (2 of 30 and 12 of 30). Over the 20 three-against-three splits the chain-level shares are close: mean 0.26, 0.28 and 0.33 for `sum`, `avg` and `tstat`, with SDs 0.14, 0.10 and 0.15. The logit distribution on those splits, 10th / 50th / 90th percentile: −1.55 / +1.49 / +4.54 for the sum, −2.37 / +1.22 / +4.12 for average trade, −2.08 / +1.00 / +4.29 for `tstat`. Averaging splits hides the segment-level dependence that the table in 4.6 shows.
+
+**Skill fixed, level and frequency spread varied.** Two hundred worlds per spread. The training segment has ordering 1.0. The test segment has ordering 0.8 or 0.0. The frequency spread scales each candidate's deviation from the mean trade count (447): 0 means every candidate trades the same number of times, 1 is the testbed, 2 is twice the testbed's spread. The cell is the share of worlds in which the champion falls below the OOS median of the same measure. A share near 50% has a standard error of about 4 points.
+
+With no frequency spread the three measures are the same number, and the level does not move it. With no ordering it stays between 46% and 54% across the five shifts. With ordering 0.8 it is 0% at every shift. The level by itself does not move the indicator.
+
+With the testbed's spread and no ordering, the indicator on the sum runs from 96% on the weakest segment to 10% on the strongest. On average trade it stays between 46% and 52%. On `tstat` it runs from 70% to 33%. At twice the spread the sum runs from 100% to 2%, average trade from 45% to 48%, and `tstat` from 92% to 19%. With ordering 0.8, on the weakest segment, the sum's indicator fires in 62% of worlds at twice the spread (the ordering is alive and the champion is still called "below median"); average trade fires in 0%.
+
+The top slice moves with the level on the sum and not on average trade. With no ordering and the testbed's spread, its place on the sum is 24 on the weakest segment and 73 on the strongest; on average trade it is 51 and 50. Averaging the slice does not remove the frequency channel. Changing the measure does.
+
+This holds because the testbed's only level channel is trade count and the outcomes are ±1, so average trade is neutral by construction. It does not say that a per-trade measure removes the level on other generators (4.12) or on historical sets, where trade count is often the behavior the rule selected.
 
 ## 5. Six historical windows
 
@@ -582,7 +614,7 @@ The position here is the median of plain percentiles inside the family. In the s
 
 The selected sits above the middle in five windows and below it in one. That is the same kind of count as on the first system. The windows under the count are not the same story.
 
-Window 1. The set is in the red. The ladder is inverted: the training top loses more than the bottom. The top 10% sit at 51. The selected at 79 is above the middle of a set whose top did not transfer.
+Window 1. The set is in the red. The ladder is inverted: the training top loses more than the bottom. The top 10% sit at 51, rank IC is −0.16. The selected at 79 is above the middle of a set whose ordering did not transfer. A high champion with a dead ladder is not evidence that the procedure carries over. Three such champions would still not be.
 
 Window 2. Every decile is in the black, from +$8.6k to +$12.1k. The selected is at 67, the top 10% at 50. The plus is the half-year.
 
@@ -592,19 +624,19 @@ Window 4. The set itself is only mildly positive. The selected is at 94, the top
 
 Window 5. The selected is at 92, the top 10% at 76. The ladder falls from +$19.9k to −$1.9k. The second decile is slightly above the first; from there the order is downward.
 
-Window 6. The selected earns +$10,860 at position 47, about the set mean of a strong short window. The top 10% are at 73, and the ladder still falls from +$14.6k to +$4.2k. The only window in which the selected is below the middle is the one in which the slice keeps the top.
+Window 6. The selected earns +$10,860 at position 47, about the set mean of a strong short window. The top 10% are at 73, rank IC is +0.47, and the ladder still falls from +$14.6k to +$4.2k. The champion is below the middle in the one window where the slice and the ladder keep the top. That is the other disagreement: a middling champion does not cancel a live ordering. Whether one should then trade the slice rather than the single name is a separate decision. These six windows do not establish it.
 
 The six windows are one instrument and they overlap in training, so they are dependent. They are a reading of this family, not a rate for other instruments.
 
 ## 6. What is shown
 
-**Shown.** On the testbed, the sign of the selected follows the period level. At a strong period without ordering it is positive in all tested replicates, at a weak period with preserved ordering in about half, under inversion in a part of the replicates, and this share grows with level (4.2, 4.3). The decile ladder at a weak period with surviving ordering declines and stays in the red: ordering and money diverge in this case (4.7). Six windows of one system and six windows of another algorithm are read by the same quantities, the sum and the position.
+**Shown.** On the testbed, the sign of the selected can be wrong in both directions, and the share of its pluses moves with the period level. At a strong period without ordering it is positive in all tested replicates, at a weak period with preserved ordering in about half, under inversion in a part of the replicates (4.2, 4.3). The decile ladder at a weak period with surviving ordering declines and stays in the red: ordering and money diverge in this case (4.7). The below-median indicator on the raw sum moves with the level through trade count; on average trade, with skill held fixed, it does not (4.14). Six windows of one system and six of another are read as champion, top slice and procedure, including the two ways those three disagree (Section 5, windows 1 and 6 of the second algorithm).
 
-**Not shown.** How often the sign errs on arbitrary history. Windows within a system are dependent, two instruments of the first system partly coincide in calendar, six windows of the second algorithm are one instrument. The testbed threshold on a historical set: it depends on clustering, and the clustering of historical sets is unknown (4.9, 4.13). With a second level channel unrelated to trade count, the trade-count-matched comparison does not see preserved ordering on a weak segment (4.12); whether ordering in the outcomes disappeared in this case was not checked. A series of positions of one rule on an account's calendar: the way of reading is described in Section 7, the series is not assembled.
+**Not shown.** How often the sign errs on arbitrary history, and how often a high champion coincides with a dead ladder or a middling champion with a live one. Windows within a system are dependent, two instruments of the first system partly coincide in calendar, six windows of the second algorithm are one instrument. The testbed threshold on a historical set: it depends on clustering, and the clustering of historical sets is unknown (4.9, 4.13). With a second level channel unrelated to trade count, neither matching nor a per-trade measure sees preserved ordering on a weak segment (4.12); whether ordering in the outcomes disappeared in this case was not checked. The logit distribution on historical windows was not computed. A series of positions of one rule on an account's calendar: the way of reading is described in Section 7, the series is not assembled.
 
 **Assumed on the testbed.** The period level acts on the sum through trade count, trade count is assigned to the cluster and does not change between IS and OOS. There are no costs, no leverage, no reward-to-risk ratio. The set is a full enumeration of a predefined space. If candidates were already selected by adaptive search on the same signal, the comparison is within that selected set; how much this shifts the reading was not measured. In the historical windows of the first system, candidates with no trades and with zero sum IS or OOS are excluded from the set; the filter is minor and uses the test outcome. The sums of the historical windows are obtained in a tester with spread.
 
-A counterexample that would refute the reading: on the testbed the sign of the selected stops following the level, or on history the selected are systematically worse than the set where the sign is right and better than the set where the sign errs.
+A counterexample that would refute the reading: on the testbed the sign of the selected stops being able to err in both directions as the level changes, or on history the three readings never disagree in the ways Section 5 records.
 
 ## 7. How to use this
 
@@ -636,13 +668,13 @@ print(report["place"], report["gap_exact"])                    # slice position:
 print(percentile_matched, gap_sd)                              # side row on frequency
 ```
 
-The slice position is the number by which the step is read. The sum and the position of a single name stay alongside: they may not match the slice. The third line says what in this situation is tied to entry frequency, and does not replace the sum. The top-slice cut within a block of equal score values depends on row order; the size of this effect was not measured separately.
+The three prints are the three readings: the champion, the frozen slice, and the frequency side row. They may not agree. The third line says what in this situation is tied to entry frequency, and does not replace the sum. The top-slice cut within a block of equal score values depends on row order; the size of this effect was not measured separately.
 
 ## 8. Conclusion
 
-The sign of the P&L of the candidate the rule ranked first conflates the period level with whether the selected candidates' advantage survived. On the testbed this is visible from five situations and from the level curve: the share of pluses of the sign moves with the level, while the slice position separates these situations (4.2, 4.3, 4.7). Comparison at equal trade count mutes, on this testbed, the part of the level that passes through trade count. It does not replace the sum. With a different level channel it does not see weak ordering on a weak segment (4.12).
+The sign of the P&L of the candidate the rule ranked first mixes the period level with whether that candidate's advantage survived, and it can be wrong in either direction. On the testbed the share of pluses moves with the level, while the slice position and the ladder separate the situations the sign cannot (4.2, 4.3, 4.7). On this testbed the part of the level that passes through trade count is removed by ranking on average trade, or, if the sum is kept, by matching on trade count (4.14). Neither replaces the sum. With a different level channel neither sees weak ordering on a weak segment (4.12).
 
-The step is read by the selected's sum and the slice position. Six windows of one system and six windows of another algorithm show what this looks like on history, including where a single name and the slice diverge. They do not estimate the frequency of sign errors on other people's history.
+The step is read three ways: the champion, the frozen slice, and the ordering of the whole set. Six windows of one system and six of another show the readings on history, including a high champion over a dead ladder and a middling champion over a live one. They do not estimate how often the sign is wrong, or how often those disagreements occur, on other people's history.
 
 **Disclosure.** The design of the replicates, the questions and the publication decisions are the author's. The code and a draft of the text were prepared with an AI assistant following this design.
 
@@ -686,6 +718,7 @@ python scripts/spp_catalog_six.py      # generator and seed-41 catalog
 python scripts/spp_worlds_study.py     # null replicates, thresholds, configurations, sensitivity
 python scripts/spp_shift_study.py      # shift curves
 python scripts/spp_ribbon_study.py     # chains and combinatorial splits
+python scripts/spp_neutral_metric_study.py  # below-median indicator on sum, average trade, t-stat (4.14)
 python scripts/spp_ladder_study.py     # decile ladder and fork between rules (4.7)
 python scripts/spp_cluster_study.py    # number of clusters (4.9)
 python scripts/spp_baseline_study.py   # decomposition on the same replicates (4.11); needs the runs above

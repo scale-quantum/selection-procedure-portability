@@ -10,7 +10,7 @@ Walk-forward validation usually checks the sign of the selected strategy's out-o
 
 Selection Procedure Portability (SPP) reads one out-of-sample step of a selection rule: the sum of the candidate that was frozen in-sample, and where that slice sits in the candidate set. A comparison with candidates of the same trade count sits beside the sum. It does not replace the sum.
 
-The paper is [Selection Procedure Portability](Selection%20Procedure%20Portability.md).
+The paper is [Selection Procedure Portability](Selection%20Procedure%20Portability.md). The file is a revision of the deposited text: the step is read as the champion, the frozen slice, and the ordering of the whole set. The citation above is the deposited version.
 
 On the testbed, how often the sign agrees with the preset ordering depends on how strong the test period is. The trade-count-matched place of the frozen slice depends on it much less:
 
